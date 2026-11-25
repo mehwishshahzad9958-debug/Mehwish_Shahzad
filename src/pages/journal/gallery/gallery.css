@@ -1,0 +1,48 @@
+/* Gallery: imagery first, pale gallery wall. Scoped under .gl */
+.gl { background: #f4f0e9; color: var(--ink); }
+.gl-hero { padding: clamp(40px, 6vw, 80px) 0 clamp(24px, 4vw, 40px); }
+.gl-eyebrow { margin-top: 28px; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.gl h1 { font-family: var(--font-serif); font-weight: 300; font-size: clamp(52px, 10vw, 112px); line-height: 1; letter-spacing: -.02em; margin-top: 10px; }
+.gl-lead { max-width: 52ch; margin-top: 20px; font-size: clamp(17px, 2vw, 20px); color: var(--ink-soft); }
+.gl-wall { padding: 8px 0 clamp(56px, 8vw, 104px); }
+.gl-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.gl-filter button { padding: 8px 18px; border-radius: 999px; border: 1px solid #d6cdbd; background: transparent; color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+.gl-filter button[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.gl-filter button:focus-visible, .gl-masonry button:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 3px; }
+.gl-collection-desc { margin-bottom: 24px; font-family: var(--font-serif); font-style: italic; font-size: 19px; color: var(--ink-soft); }
+
+.gl-masonry { columns: 3; column-gap: clamp(12px, 2vw, 22px); list-style: none; padding: 0; }
+@media (max-width: 900px) { .gl-masonry { columns: 2; } }
+@media (max-width: 480px) { .gl-masonry { columns: 1; } }
+.gl-masonry li { break-inside: avoid; margin-bottom: clamp(12px, 2vw, 22px); }
+.gl-masonry button { display: block; width: 100%; padding: 0; border: 0; background: #e6dfd2; cursor: zoom-in; overflow: hidden; border-radius: 3px; }
+.gl-masonry img { display: block; width: 100%; height: auto; transition: transform .6s ease, opacity .3s; }
+.gl-masonry button:hover img { transform: scale(1.03); }
+
+.gl-empty { display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 5vw, 56px); align-items: center; max-width: 820px; }
+.gl-empty h2 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.15; }
+.gl-empty p { margin-top: 12px; max-width: 44ch; color: var(--ink-soft); }
+.gl-empty__sheet { display: grid; grid-template-columns: repeat(3, 56px); grid-auto-rows: 70px; gap: 8px; padding: 14px; background: #fff; box-shadow: 0 8px 24px -12px #0004; }
+.gl-empty__sheet span { background: #e6dfd2; }
+.gl-empty__sheet span:nth-child(2), .gl-empty__sheet span:nth-child(4) { grid-row: span 2; background: #d8cfbe; }
+@media (max-width: 560px) { .gl-empty { grid-template-columns: minmax(0, 1fr); } }
+
+/* Lightbox */
+.gl-lb { position: fixed; inset: 0; margin: 0; width: 100vw; max-width: none; height: 100vh; height: 100dvh; max-height: none; padding: 0; border: 0; background: #0d0b09f2; color: #f5ecdc; overflow: hidden; }
+.gl-lb[open] { display: grid; place-items: center; }
+.gl-lb::backdrop { background: #000; }
+.gl-lb__fig { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 100%; padding: 64px clamp(16px, 8vw, 96px) 24px; }
+.gl-lb__fig img { max-width: 100%; max-height: calc(100dvh - 190px); object-fit: contain; }
+.gl-lb__fig figcaption { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.gl-lb__cap { font-family: var(--font-serif); font-size: 20px; }
+.gl-lb__meta { font-size: 13px; letter-spacing: .08em; opacity: .7; }
+.gl-lb button { position: absolute; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #ffffff44; background: #0d0b09aa; color: inherit; cursor: pointer; }
+.gl-lb button:hover { background: #ffffff22; }
+.gl-lb button:focus-visible { outline: 2px solid #e8a27c; outline-offset: 2px; }
+.gl-lb__close { top: 14px; right: 14px; }
+.gl-lb__nav { top: 50%; translate: 0 -50%; }
+.gl-lb__nav--prev { left: 12px; }
+.gl-lb__nav--prev svg { transform: scaleX(-1); }
+.gl-lb__nav--next { right: 12px; }
+@media (max-width: 560px) { .gl-lb__nav { top: auto; bottom: 14px; translate: none; } .gl-lb__nav--prev { left: 14px; } .gl-lb__nav--next { right: 14px; } }
+@media (prefers-reduced-motion: reduce) { .gl-masonry img { transition: none; } .gl-masonry button:hover img { transform: none; } }

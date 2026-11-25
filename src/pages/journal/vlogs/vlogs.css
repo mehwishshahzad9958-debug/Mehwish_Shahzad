@@ -1,0 +1,57 @@
+/* Vlogs: dark cinema, film perforations. Scoped under .vl */
+.vl { background: #17130f; color: #f5ecdc; min-height: 70vh; }
+.vl .back-link { color: #f5ecdc; opacity: .8; }
+.vl-hero { padding: clamp(40px, 6vw, 80px) 0 clamp(28px, 4vw, 48px); border-bottom: 1px solid #ffffff1a;
+  background: radial-gradient(ellipse at 85% 0%, #e8a27c26, transparent 55%); }
+.vl-eyebrow { margin-top: 28px; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: #e8a27c; }
+.vl h1 { font-family: var(--font-serif); font-weight: 300; font-size: clamp(52px, 10vw, 112px); line-height: 1; letter-spacing: -.02em; margin-top: 10px; }
+.vl-lead { max-width: 50ch; margin-top: 20px; font-size: clamp(17px, 2vw, 20px); color: #f5ecdccc; }
+.vl-follow { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; padding: 12px 22px; border-radius: 999px; background: #f5ecdc; color: #17130f; font-weight: 500; text-decoration: none; }
+.vl-reel { padding: clamp(36px, 5vw, 64px) 0 clamp(56px, 8vw, 104px); }
+.vl a:focus-visible, .vl button:focus-visible { outline: 2px solid #e8a27c; outline-offset: 3px; }
+
+.vl-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px); list-style: none; padding: 0; }
+@media (max-width: 900px) { .vl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .vl-grid { grid-template-columns: minmax(0, 1fr); } }
+.vl-card__poster { position: relative; display: block; aspect-ratio: 9 / 14; overflow: hidden; border-radius: var(--radius-md); background: #2a221b; }
+.vl-card__poster img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.vl-card__poster:hover img { transform: scale(1.04); }
+.vl-card__fallback { position: absolute; inset: 0; background: linear-gradient(160deg, #b4412f, #5a2a1f 60%, #231a14); }
+.vl-card__play { position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; background: #17130fb3; border: 1.5px solid #f5ecdc; backdrop-filter: blur(4px); transition: transform .25s, background .25s; }
+.vl-card__poster:hover .vl-card__play { transform: scale(1.1); background: #b4412f; }
+.vl-card__badge { position: absolute; top: 14px; left: 14px; padding: 4px 12px; border-radius: 999px; background: #17130fb3; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.vl-card__body { padding-top: 16px; }
+.vl-card h3 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; line-height: 1.2; }
+.vl-card__date { margin-top: 4px; font-size: 13px; color: #f5ecdc99; }
+.vl-card__cap { margin-top: 8px; color: #f5ecdccc; }
+.vl-card__actions { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; margin-top: 14px; font-size: 14px; }
+.vl-card__actions a { display: inline-flex; gap: 8px; align-items: center; color: #e8a27c; text-decoration: none; font-weight: 500; }
+.vl-card__actions button { background: none; border: 0; padding: 0; color: #f5ecdccc; font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* Empty state: three blank screens on a film strip */
+.vl-empty { display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 5vw, 60px); align-items: center; max-width: 900px; }
+.vl-empty__screens { display: flex; gap: 12px; padding: 22px 14px; background: repeating-linear-gradient(90deg, #ffffff22 0 10px, transparent 10px 22px) top 7px left 0 / 100% 8px no-repeat, repeating-linear-gradient(90deg, #ffffff22 0 10px, transparent 10px 22px) bottom 7px left 0 / 100% 8px no-repeat, #0e0b09; border-radius: 6px; }
+.vl-empty__screens span { width: 74px; height: 120px; border-radius: 4px; background: linear-gradient(160deg, #3a2e25, #231a14); display: grid; place-items: center; }
+.vl-empty__screens span:nth-child(2) { transform: translateY(-8px); }
+.vl-empty__screens i { width: 0; height: 0; border-left: 16px solid #f5ecdc66; border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
+.vl-empty h2 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.15; }
+.vl-empty p { margin-top: 12px; max-width: 46ch; color: #f5ecdccc; }
+.vl-steps { margin-top: 20px; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; font-size: 15px; color: #f5ecdcb3; }
+.vl-steps li { counter-increment: s; display: flex; gap: 12px; }
+.vl-steps li::before { content: counter(s); flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1px solid #e8a27c; color: #e8a27c; display: grid; place-items: center; font-size: 12px; }
+@media (max-width: 640px) { .vl-empty { grid-template-columns: minmax(0, 1fr); } }
+
+/* Preview dialog */
+.vl-dialog { margin: auto; width: min(94vw, 480px); max-height: 94vh; padding: 0; border: 0; border-radius: var(--radius-md); background: #17130f; color: #f5ecdc; overflow: hidden; }
+.vl-dialog::backdrop { background: #000000cc; }
+.vl-dialog[open] { display: flex; flex-direction: column; }
+.vl-dialog__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 18px; border-bottom: 1px solid #ffffff1a; }
+.vl-dialog__bar p { font-family: var(--font-serif); font-size: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vl-dialog__bar button { flex: none; width: 40px; height: 40px; display: grid; place-items: center; background: none; border: 0; border-radius: 50%; color: inherit; cursor: pointer; }
+.vl-dialog__bar button:hover { background: #ffffff1a; }
+.vl-dialog__stage { position: relative; flex: 1; min-height: 420px; background: #fff; }
+.vl-dialog__stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vl-dialog__wait { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: #5a4d40; font-size: 15px; z-index: 0; }
+.vl-dialog__foot { padding: 12px 18px; font-size: 14px; color: #f5ecdcb3; }
+.vl-dialog__foot a { color: #e8a27c; }
+@media (prefers-reduced-motion: reduce) { .vl-card__poster img, .vl-card__play { transition: none; } }

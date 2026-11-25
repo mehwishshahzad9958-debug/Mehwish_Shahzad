@@ -1,0 +1,102 @@
+/* Creativity board: a Pinterest-style masonry feed. Scoped to .cg / .cg-* (dialogs reuse the .cr-dialog styles).
+   Bright white page, charcoal text, neutral greys, rounded cards. */
+.cr.cg-page { --cg-ink: #111111; --cg-grey: #767676; --cg-fill: #efefef; --cg-fill-hover: #e2e2e2; background: #fff; color: var(--cg-ink); font-family: var(--font-sans); }
+.cg-head { padding: clamp(28px, 4vw, 48px) 0 clamp(14px, 2vw, 22px); text-align: center; }
+.cg-back { display: inline-block; font-size: 13px; color: var(--cg-grey); text-decoration: none; margin-bottom: 14px; }
+.cg-back:hover { color: var(--cg-ink); }
+.cg-eyebrow { display: none; }
+.cg-head h1 { margin: 0; font-family: var(--font-sans); font-weight: 600; font-size: clamp(28px, 4.2vw, 44px); line-height: 1.12; letter-spacing: -.02em; }
+.cg-head h1 em { font-family: var(--font-sans); font-style: normal; font-weight: 600; }
+.cg-lead { margin: 12px auto 0; max-width: 52ch; font-size: 16px; line-height: 1.5; color: var(--cg-grey); }
+
+/* Filters */
+.cg-filters { position: relative; margin-top: 6px; }
+.cg-filters__row { display: flex; gap: 8px; overflow-x: auto; padding: 6px 2px 12px; scrollbar-width: none; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.cg-filters__row::-webkit-scrollbar { display: none; }
+@media (min-width: 900px) { .cg-filters__row { justify-content: center; } }
+.cg-chip { flex: none; scroll-snap-align: start; padding: 10px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--cg-ink); font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: background .2s, color .2s; white-space: nowrap; }
+.cg-chip:hover { background: var(--cg-fill); }
+.cg-chip.is-on { background: var(--cg-ink); color: #fff; }
+.cg-chip:focus-visible, .cg-filters__arrow:focus-visible, .cg-pin:focus-visible { outline: 2px solid var(--cg-ink); outline-offset: 3px; }
+.cg-filters__arrow { position: absolute; top: 4px; z-index: 2; width: 40px; height: 40px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 1px 8px rgba(0, 0, 0, .22); font-size: 22px; line-height: 1; cursor: pointer; display: none; }
+.cg-filters__arrow--l { left: 0; }
+.cg-filters__arrow--r { right: 0; }
+@media (hover: hover) and (min-width: 900px) { .cg-filters__arrow { display: grid; place-items: center; } }
+
+.cg-status { margin: 4px 0 14px; font-size: 13px; color: var(--cg-grey); text-align: center; }
+
+/* Masonry */
+.cg-board { display: flex; gap: 16px; align-items: flex-start; }
+.cg-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.cg-col li { margin: 0; }
+@media (max-width: 559px) { .cg-board, .cg-col { gap: 8px; } }
+
+/* Pin card */
+.cg-pin { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: zoom-in; border-radius: 16px; animation: cg-in .45s ease both; }
+@keyframes cg-in { from { opacity: 0; transform: translateY(10px); } }
+.cg-pin__media { position: relative; display: grid; place-items: center; width: 100%; overflow: hidden; border-radius: 16px; background: var(--cg-fill); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .07); }
+.cg-pin__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+.cg-pin:hover .cg-pin__media img, .cg-pin:focus-visible .cg-pin__media img { transform: scale(1.04); }
+.cg-pin__art { width: 56%; color: var(--cg-ink); opacity: .55; }
+.cg-pin__play { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; translate: -50% -50%; border-radius: 50%; background: rgba(0, 0, 0, .55); }
+.cg-pin__play::after { content: ''; position: absolute; left: 21px; top: 16px; border: 10px solid transparent; border-left: 16px solid #fff; border-right: 0; }
+.cg-pin__veil { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; padding: 14px; border-radius: 16px; color: #fff; background: linear-gradient(180deg, rgba(0, 0, 0, .12) 0, rgba(0, 0, 0, .28) 50%, rgba(0, 0, 0, .6)); opacity: 0; transition: opacity .25s; pointer-events: none; }
+.cg-pin:hover .cg-pin__veil, .cg-pin:focus-visible .cg-pin__veil { opacity: 1; }
+.cg-pin__title { font-size: 16px; font-weight: 600; line-height: 1.25; }
+.cg-pin__cat { font-size: 12px; opacity: .88; }
+.cg-pin__cap { display: none; margin-top: 6px; padding: 0 4px; font-size: 13px; font-weight: 600; line-height: 1.3; }
+/* Touch screens have no hover, so the title sits quietly below the image there. */
+@media (hover: none) { .cg-pin__cap { display: block; } .cg-pin__veil { display: none; } }
+
+/* A card that opens its file directly in a new tab. Text stays under the cover; a pill appears on hover. */
+a.cg-pin { text-decoration: none; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.cg-pin__media { transition: box-shadow .3s, transform .3s; }
+.cg-pin--link:hover .cg-pin__media, .cg-pin--link:focus-visible .cg-pin__media { box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .07), 0 8px 24px rgba(0, 0, 0, .16); transform: translateY(-2px); }
+.cg-pin--link:hover .cg-pin__media img, .cg-pin--link:focus-visible .cg-pin__media img { transform: scale(1.03); }
+.cg-pin__open { position: absolute; top: 12px; right: 12px; padding: 8px 14px; border-radius: 999px; background: var(--cg-ink); color: #fff; font-size: 13px; font-weight: 600; opacity: 0; translate: 0 -4px; transition: opacity .25s, translate .25s; pointer-events: none; }
+.cg-pin--link:hover .cg-pin__open, .cg-pin--link:focus-visible .cg-pin__open { opacity: 1; translate: 0 0; }
+@media (hover: none) { .cg-pin__open { opacity: 1; translate: 0 0; top: 8px; right: 8px; padding: 5px 10px; font-size: 12px; } }
+.cg-pin__info { display: flex; flex-direction: column; gap: 3px; padding: 10px 4px 2px; }
+.cg-pin__name { font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--cg-ink); }
+.cg-pin__sub { font-size: 13px; line-height: 1.4; color: #555; }
+.cg-pin__meta { font-size: 12px; color: var(--cg-grey); }
+
+/* File-type tile: shown only when a file has no real preview yet. */
+.cg-tile { display: grid; place-items: center; align-content: center; gap: 10px; width: 100%; height: 100%; padding: 16px; text-align: center; background: var(--cg-fill); }
+.cg-tile__badge { padding: 4px 12px; border-radius: 8px; background: var(--cg-ink); color: #fff; font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+.cg-tile__name { font-size: 15px; font-weight: 600; color: var(--cg-ink); word-break: break-word; }
+
+.cg-empty { padding: 60px 0; color: var(--cg-grey); text-align: center; }
+.cg-foot { padding: clamp(40px, 6vw, 80px) 0 clamp(48px, 8vw, 96px); text-align: center; }
+.cg-foot p { margin: 0; font-size: 15px; color: var(--cg-grey); }
+
+/* Real-file viewer inside dialogs */
+.cg-viewer { margin: 22px 0 0; }
+.cg-viewer__pdf { display: block; width: 100%; height: min(70vh, 720px); border: 1px solid rgba(0, 0, 0, .12); border-radius: 12px; background: #fff; }
+.cg-viewer__video { display: block; width: 100%; max-height: 70vh; border-radius: 12px; background: #000; }
+.cg-viewer__links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 12px 0 0; }
+
+/* Storybook dialog: full-screen, warm and dark, so the pages are the only light thing. The book itself is in storybook.css. */
+.cr-dialog--book { inset: 0; width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; overflow: hidden; color: #f6efe2; background: radial-gradient(ellipse at 50% 42%, #5a3a28 0%, #3a2318 52%, #1f120c 100%); }
+.cr-dialog--book::backdrop { background: #1f120c; }
+.cr-dialog--book .cr-dialog__inner { padding: 0; width: 100%; height: 100%; }
+.cr-dialog--book .cr-dialog__close { top: 14px; right: 14px; z-index: 5; background: #f6efe2; color: #2b1912; border-color: #f6efe2; box-shadow: 0 2px 10px rgba(0, 0, 0, .4); }
+.cg-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Photo lightbox (a dialog variant for images that stand on their own) */
+.cr-dialog--lightbox { width: min(1100px, 96vw); background: #14100d; color: #fff; }
+.cr-dialog--lightbox .cr-dialog__inner { padding: clamp(12px, 2vw, 24px); }
+.cr-dialog--lightbox .cr-dialog__close { background: #fff; color: #1c1511; border-color: #fff; z-index: 2; }
+.cr-lightbox { margin: 0; display: grid; gap: 14px; }
+.cr-lightbox img { width: 100%; max-height: 78vh; object-fit: contain; border-radius: 12px; }
+.cr-lightbox figcaption { display: grid; gap: 6px; padding: 0 6px 6px; }
+.cr-lightbox h3 { margin: 0; padding: 0; font-family: var(--font-serif); font-weight: 400; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.2; }
+.cr-lightbox p { margin: 0; font-size: 15px; opacity: .8; }
+.cr-lightbox__nav { display: flex; align-items: center; gap: 12px; font-size: 14px; opacity: .9; }
+.cr-lightbox__nav button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .5); background: none; color: #fff; font-size: 20px; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) { .cg-pin { animation: none; } .cg-pin__media img, .cg-pin__veil { transition: none; } .cg-pin:hover .cg-pin__media img { transform: none; } }
+
+.cg-pin:hover .cg-pin__soon,
+.cg-pin:focus-visible .cg-pin__soon { opacity: 0; }
+.cg-pin:has(.cg-pin__info) .cg-pin__veil { display: none; }

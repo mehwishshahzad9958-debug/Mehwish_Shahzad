@@ -1,0 +1,89 @@
+/* Journal shell: section switcher and landing page. Scoped under .jn (nav) and .jl (landing). */
+.jn {
+  background: var(--cream);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  position: relative;
+  z-index: 2;
+}
+.jn__inner {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-block: 10px;
+  scrollbar-width: none;
+}
+.jn__inner::-webkit-scrollbar { display: none; }
+.jn__link {
+  flex: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+.jn__link:hover { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.jn__link.active { background: var(--espresso); color: var(--cream); }
+.jn__link:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 2px; }
+
+/* ---------- Landing ---------- */
+.jl__hero { padding: clamp(48px, 8vw, 96px) 0 clamp(28px, 5vw, 56px); }
+.jl__title {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(44px, 9vw, 104px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-top: 18px;
+}
+.jl__title a { color: inherit; text-decoration: none; transition: color 0.2s; }
+.jl__title a:hover, .jl__title a:focus-visible { color: var(--terracotta); }
+.jl__title i { font-style: italic; }
+.jl__lead { max-width: 56ch; font-size: clamp(17px, 2vw, 20px); color: var(--ink-soft); margin-top: 24px; }
+
+.jl__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
+  padding-bottom: clamp(48px, 7vw, 88px);
+}
+@media (max-width: 720px) { .jl__grid { grid-template-columns: minmax(0, 1fr); } }
+
+.jl-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 340px;
+  padding: clamp(22px, 3vw, 32px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  color: var(--c-fg);
+  background: var(--c-bg);
+  text-decoration: none;
+  isolation: isolate;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.jl-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -18px rgba(0,0,0,.35); }
+.jl-card:focus-visible { outline: 3px solid var(--terracotta); outline-offset: 3px; }
+.jl-card__art { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.jl-card__art svg { width: 100%; height: 100%; display: block; }
+.jl-card__num { font-size: 13px; letter-spacing: .18em; opacity: .7; }
+.jl-card__title { font-family: var(--font-serif); font-weight: 400; font-size: clamp(32px, 4vw, 46px); line-height: 1.05; margin-top: 8px; }
+.jl-card__desc { margin-top: 12px; max-width: min(34ch, 58%); font-size: 16px; opacity: .9; }
+.jl-card__foot { margin-top: auto; padding-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; font-weight: 500; }
+.jl-card__count { padding: 5px 12px; border-radius: 999px; background: var(--c-chip); }
+.jl-card__go { display: inline-flex; align-items: center; gap: 8px; }
+.jl-card:hover .jl-card__go svg { transform: translateX(4px); }
+.jl-card__go svg { transition: transform .25s; }
+
+/* Distinct identity per section */
+.jl-card--blogs { --c-bg: #fbf6ea; --c-fg: var(--ink); --c-chip: #ebe0c8; border: 1px solid #e3d7bd; }
+.jl-card--blogs .jl-card__title { font-style: italic; }
+.jl-card--travel { --c-bg: #e4d6b6; --c-fg: #1f2a3d; --c-chip: #f3ead3; border: 2px dashed #b4412f66; }
+.jl-card--vlogs { --c-bg: #1b1714; --c-fg: #f5ecdc; --c-chip: #ffffff1f; }
+.jl-card--gallery { --c-bg: #f1ece4; --c-fg: var(--ink); --c-chip: #ffffffcc; border: 1px solid #ddd3c4; }
+
+.jl__more { padding-bottom: clamp(48px, 7vw, 88px); }
+.jl__more h2 { display: flex; align-items: center; gap: 12px; }
+@media (prefers-reduced-motion: reduce) { .jl-card, .jl-card__go svg { transition: none; } .jl-card:hover { transform: none; } }

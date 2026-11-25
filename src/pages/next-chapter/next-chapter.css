@@ -1,0 +1,211 @@
+/* Next Chapter page: an open storybook. Scoped to .nc-* */
+/* ---------- intro overlay ---------- */
+.nc-intro {
+  --gold: #e3c27c;
+  --gold-soft: rgba(227, 194, 124, 0.55);
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 46%, #5a3a28 0%, #3a2318 46%, #1f120c 100%);
+  animation: nc-fade-in 0.9s ease both;
+}
+@keyframes nc-fade-in { from { opacity: 0; } }
+
+.nc-glow {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: min(120vmin, 1100px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(236, 196, 120, 0.62), rgba(229, 154, 108, 0.18) 55%, transparent);
+  opacity: 1;
+  animation: nc-breathe 6s ease-in-out infinite;
+}
+@keyframes nc-breathe { 50% { scale: 1.06; } }
+
+.nc-sparkles { position: absolute; inset: 0; pointer-events: none; }
+.nc-spark {
+  position: absolute;
+  border-radius: 50%;
+  background: #f6e3b0;
+  opacity: 0;
+  animation: nc-float ease-in-out infinite;
+}
+.nc-spark--star { border-radius: 0; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); background: var(--gold); }
+@keyframes nc-float {
+  0% { opacity: 0; transform: translateY(14px) scale(0.6); }
+  35% { opacity: 0.95; }
+  70% { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(-36px) scale(1); }
+}
+
+.nc-skip {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 5;
+  padding: 9px 18px;
+  border: 1px solid rgba(247, 240, 231, 0.5);
+  border-radius: 999px;
+  background: rgba(31, 18, 12, 0.35);
+  color: var(--ivory);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.nc-skip { text-decoration: none; }
+.nc-skip:hover { background: rgba(247, 240, 231, 0.16); }
+.nc-skip:focus-visible, .nc-invite:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+.nc-scene { position: relative; z-index: 2; display: grid; place-items: center; width: 100%; height: 100%; }
+
+/* ---------- the book ---------- */
+.nc-book {
+  --shift: 0%;
+  position: relative;
+  width: min(88vw, 780px);
+  aspect-ratio: 3 / 2;
+  container-type: inline-size;
+  perspective: 2200px;
+  translate: var(--shift) 0;
+  transition: translate 1.6s cubic-bezier(0.5, 0, 0.2, 1);
+  animation: nc-rise 1s 0.15s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes nc-rise { from { opacity: 0; transform: translateY(46px) scale(0.93); } }
+
+.nc-book__shadow {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -9%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.5), transparent);
+}
+.nc-board {
+  position: absolute;
+  top: -2.4%;
+  height: 104.8%;
+  width: 52.2%;
+  background: linear-gradient(135deg, #6b4129, #43271a);
+  box-shadow: inset 0 0 0 1px rgba(227, 194, 124, 0.35), 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 90px rgba(227, 194, 124, 0.22);
+}
+.nc-board--r { left: 50%; border-radius: 0 8px 8px 0; }
+.nc-board--l { left: -2.2%; border-radius: 8px 0 0 8px; }
+.nc-left { position: absolute; inset: 0; }
+
+.nc-page, .nc-leaf__front, .nc-leaf__back, .nc-cover__back {
+  background: linear-gradient(90deg, #eadfc9 0, #f7f0e7 9%, #fbf6ec 100%);
+}
+.nc-page { position: absolute; top: 0; height: 100%; width: 49%; }
+.nc-page--r { left: 50%; border-radius: 0 3px 3px 0; box-shadow: 1px 0 0 #e1d3b9, 2px 0 0 #fbf6ec, 3px 0 0 #e1d3b9; }
+.nc-page--l { left: 1%; border-radius: 3px 0 0 3px; background: linear-gradient(270deg, #eadfc9 0, #f7f0e7 9%, #fbf6ec 100%); box-shadow: -1px 0 0 #e1d3b9, -2px 0 0 #fbf6ec, -3px 0 0 #e1d3b9; }
+
+.nc-leaf {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 49%;
+  height: 100%;
+  z-index: 2;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1.2s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.nc-intro[data-turn='true'] .nc-leaf { transform: rotateY(-179deg); z-index: 4; }
+.nc-leaf__front, .nc-leaf__back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 0 3px 3px 0; }
+.nc-leaf__back { transform: rotateY(180deg); background: linear-gradient(270deg, #eadfc9 0, #f7f0e7 9%, #fbf6ec 100%); border-radius: 3px 0 0 3px; display: grid; place-items: center; }
+.nc-leaf__front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9cqw;
+  padding: 6cqw 6cqw 6cqw 7cqw;
+  text-align: center;
+}
+.nc-leaf__front::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(60, 35, 24, 0.35), transparent 70%); opacity: 0; transition: opacity 1.2s; border-radius: inherit; }
+.nc-intro[data-turn='true'] .nc-leaf__front::after { opacity: 1; }
+
+.nc-line {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 4.5cqw;
+  line-height: 1.28;
+  color: #3a2318;
+}
+.nc-line span { display: block; opacity: 0; transform: translateY(8px); transition: opacity 1s ease, transform 1s ease; }
+.nc-intro[data-ready='true'] .nc-line span { opacity: 1; transform: none; }
+.nc-line span:nth-child(2) { transition-delay: 0.4s; }
+.nc-line span:nth-child(3) { transition-delay: 0.8s; }
+
+.nc-invite {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+  border: 0;
+  border-bottom: 1px dashed var(--terracotta-dark);
+  background: none;
+  color: var(--terracotta-dark);
+  font-family: var(--font-sans);
+  font-size: clamp(11px, 2.1cqw, 15px);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
+.nc-invite svg { width: 1.3em; height: 1.3em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nc-intro[data-ready='true'] .nc-invite { opacity: 1; pointer-events: auto; animation: nc-nudge 2.4s ease-in-out infinite; }
+.nc-intro[data-turn='true'] .nc-leaf__front .nc-invite { opacity: 0; transition-duration: 0.3s; }
+@keyframes nc-nudge { 50% { translate: 4px 0; } }
+
+.nc-orn { width: 46%; opacity: 0.8; }
+
+.nc-page--r { display: grid; place-items: center; align-content: center; gap: 8cqw; color: #b8995a; }
+.nc-page--l { display: grid; place-items: center; color: #b8995a; }
+.nc-back { display: inline-flex; align-items: center; gap: 8px; padding: 4px 2px; border: 0; border-bottom: 1px dashed var(--terracotta-dark); background: none; font-family: var(--font-sans); letter-spacing: 0.06em; cursor: pointer; color: var(--terracotta-dark); opacity: 0; pointer-events: none; transition: opacity 0.6s 0.6s ease; font-size: clamp(11px, 2.1cqw, 15px); }
+.nc-back svg { width: 1.3em; height: 1.3em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nc-back:focus-visible { outline: 2px solid var(--terracotta-dark); outline-offset: 4px; }
+.nc-intro[data-turn='true'] .nc-back { opacity: 1; pointer-events: auto; }
+.nc-back:hover { color: var(--terracotta); }
+.nc-leaf__back { padding: 8cqw 7cqw 8cqw 6cqw; }
+.nc-message {
+  margin: 0;
+  max-width: 17ch;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 4.4cqw;
+  line-height: 1.4;
+  color: #3a2318;
+  text-wrap: balance;
+}
+.nc-message::before { content: ''; display: block; width: 28px; height: 1px; margin: 0 auto 4cqw; background: #b8995a; }
+
+/* ---------- smaller screens: a taller book so the sentence fits its page ---------- */
+@media (max-width: 640px) {
+  .nc-book { width: 92vw; aspect-ratio: 1 / 1.12; }
+  .nc-line { font-size: 6.6cqw; }
+  .nc-message { font-size: 6.4cqw; max-width: 15ch; }
+  .nc-invite { font-size: clamp(10px, 2.9cqw, 13px); white-space: nowrap; letter-spacing: 0.03em; }
+  .nc-leaf__front { gap: 12cqw; padding: 5cqw 3cqw 5cqw 6cqw; }
+  .nc-skip { top: 12px; right: 12px; }
+}
+
+/* ---------- reduced motion: show the open book at once, no movement ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .nc-intro, .nc-book, .nc-glow, .nc-spark, .nc-invite { animation: none !important; }
+  .nc-intro, .nc-book, .nc-left, .nc-leaf, .nc-line span, .nc-invite, .nc-glow, .nc-leaf__front::after { transition: none !important; }
+  .nc-spark { opacity: 0.6; }
+}

@@ -1,0 +1,37 @@
+/* Design tokens: every colour, font and size used across the site lives here. */
+:root {
+  /* Warm neutrals */
+  --cream: #f3ece2;
+  --ivory: #f7f0e7;
+  --sand: #efe2d2;
+  --peach: #f7d9c5;
+  --peach-soft: #fbe5d5;
+
+  /* Ink */
+  --espresso: #2b1912;
+  --brown: #3a2318;
+  --ink: #3a2a22;
+  --ink-soft: #4a3a32;
+  --muted: #6b5648;
+
+  /* Accents */
+  --terracotta: #b5552e;
+  --terracotta-dark: #7e3314;
+  --clay: #a8552f;
+  --glow: #e59a6c;
+  --forest: #2f3a2c;
+  --mauve: #5b4146;
+
+  /* Type */
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-script: 'Allura', 'Brush Script MT', cursive;
+
+  /* Layout */
+  --container: 1280px;
+  --gutter: clamp(20px, 4.2vw, 56px);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --header-h: 72px;
+}

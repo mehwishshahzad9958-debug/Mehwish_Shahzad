@@ -1,0 +1,50 @@
+.collage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.15;
+  max-width: 440px;
+  margin-inline: auto;
+}
+.collage__item {
+  position: absolute;
+  width: 46%;
+  transition: transform 0.3s;
+}
+.collage__item figure {
+  padding: 3.5% 3.5% 12%;
+  background: #fffaf4;
+  box-shadow: 0 8px 22px rgba(70, 40, 20, 0.22);
+}
+.collage__item img {
+  width: 100%;
+  aspect-ratio: 1.05;
+  object-fit: cover;
+}
+.collage__item--1 {
+  left: 2%;
+  top: 2%;
+  transform: rotate(-6deg);
+  z-index: 1;
+}
+.collage__item--2 {
+  right: 2%;
+  top: 0;
+  transform: rotate(5deg);
+  z-index: 2;
+}
+.collage__item--3 {
+  left: 12%;
+  bottom: 0;
+  transform: rotate(3deg);
+  z-index: 3;
+}
+.collage__item--4 {
+  right: 4%;
+  bottom: 2%;
+  transform: rotate(-5deg);
+  z-index: 4;
+}
+.collage__item:hover {
+  transform: rotate(0deg) scale(1.04);
+  z-index: 5;
+}

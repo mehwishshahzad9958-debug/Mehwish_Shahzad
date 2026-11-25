@@ -1,0 +1,87 @@
+/* Storybook viewer. Scoped to .sb / .sb-*; used inside the .cr-dialog--book dialog. */
+.sb {
+  --sb-ease: cubic-bezier(0.55, 0.05, 0.25, 1);
+  --sb-dur: 1000ms;
+  --sb-paper: #f6efe2;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: clamp(56px, 8vh, 80px) clamp(12px, 3vw, 40px) clamp(12px, 3vh, 28px);
+  gap: clamp(12px, 2.5vh, 24px);
+  color: #f6efe2;
+}
+.sb__stage { display: grid; place-items: center; width: 100%; min-height: 0; perspective: 2400px; perspective-origin: 50% 40%; }
+/* The book takes the shape of its first page and is as large as the screen allows. */
+.sb__book {
+  position: relative;
+  width: min(100%, 1180px, calc((100dvh - 190px) * var(--sb-ratio)));
+  aspect-ratio: var(--sb-ratio);
+  transform-style: preserve-3d;
+  cursor: pointer;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.5));
+}
+/* Cover board peeking out behind the pages, with a few edges of paper. */
+.sb__board {
+  position: absolute;
+  inset: -1.6% -1.6% -1.8% -1.2%;
+  border-radius: 6px 10px 10px 6px;
+  background: linear-gradient(135deg, #7a4a2e, #4a2c1c 62%, #3a2216);
+  box-shadow: inset 0 0 0 1px rgba(227, 194, 124, 0.3);
+  transform: translateZ(-2px);
+}
+.sb__leaf {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform var(--sb-dur) var(--sb-ease), opacity 0.25s ease var(--sb-dur);
+  box-shadow: 1px 1px 0 #e5dac6, 2px 2px 0 #d7c9ae, 3px 3px 0 #e5dac6;
+}
+.sb__leaf[data-flipped='true'] { transform: rotateY(-180deg); opacity: 0; transition: transform var(--sb-dur) var(--sb-ease), opacity 0.2s ease calc(var(--sb-dur) * 0.78); box-shadow: none; }
+.sb__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 2px 4px 4px 2px; overflow: hidden; background: var(--sb-paper); }
+.sb__face--front { display: grid; place-items: center; }
+/* Never cropped or stretched: the image fits the page and is letterboxed on paper if its shape differs. */
+.sb__face--front img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.sb__face--back { transform: rotateY(180deg); background: linear-gradient(270deg, #e6dcc8 0, var(--sb-paper) 14%, #fbf6ec 100%); }
+/* Soft crease at the spine, and a shade that deepens while the leaf is turning. */
+.sb__spine { position: absolute; inset: 0 auto 0 0; width: 5%; background: linear-gradient(90deg, rgba(40, 22, 12, 0.34), rgba(40, 22, 12, 0.1) 45%, transparent); pointer-events: none; }
+.sb__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(30, 16, 8, 0.55), rgba(30, 16, 8, 0.05) 80%); opacity: 0; transition: opacity var(--sb-dur) var(--sb-ease); pointer-events: none; }
+.sb__leaf[data-flipped='true'] .sb__shade { opacity: 1; }
+
+.sb__zone { position: absolute; top: 0; bottom: 0; z-index: 50; border: 0; padding: 0; background: none; cursor: pointer; }
+.sb__zone--prev { left: 0; width: 18%; cursor: w-resize; }
+.sb__zone--next { right: 0; left: 18%; cursor: e-resize; }
+.sb__zone:disabled { cursor: default; }
+.sb__book[data-ready='false'] .sb__zone { cursor: progress; }
+
+.sb__loading { position: absolute; inset: 0; z-index: 60; display: grid; place-items: center; background: var(--sb-paper); color: #6b4a34; font-family: var(--font-serif); font-style: italic; font-size: 18px; }
+
+.sb__bar { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 3vw, 28px); }
+.sb__count { margin: 0; min-width: 8.5em; text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 17px; letter-spacing: 0.02em; color: rgba(246, 239, 226, 0.88); }
+.sb__orig { margin-left: clamp(4px, 2vw, 20px); font-size: 14px; color: rgba(246, 239, 226, 0.88); text-decoration: none; border-bottom: 1px solid rgba(246, 239, 226, 0.45); padding-bottom: 1px; white-space: nowrap; }
+.sb__orig:hover { color: #fff; border-color: #fff; }
+.sb__orig:focus-visible { outline: 2px solid #e3c27c; outline-offset: 4px; }
+.sb__btn { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid rgba(246, 239, 226, 0.55); border-radius: 50%; background: rgba(246, 239, 226, 0.08); color: #f6efe2; cursor: pointer; transition: background 0.2s, opacity 0.2s, transform 0.2s; }
+.sb__btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sb__btn:hover:not(:disabled) { background: rgba(246, 239, 226, 0.2); }
+.sb__btn:disabled { opacity: 0.32; cursor: default; }
+.sb__btn:focus-visible { outline: 2px solid #e3c27c; outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .sb { padding-top: 64px; }
+  .sb__bar { flex-wrap: wrap; row-gap: 10px; }
+  .sb__orig { flex-basis: 100%; text-align: center; border: 0; margin: 0; text-decoration: underline; }
+  .sb__book { width: min(100%, calc((100dvh - 200px) * var(--sb-ratio))); }
+  .sb__btn { width: 54px; height: 54px; }
+}
+
+/* Reduced motion: the page changes at once, without the swing. */
+@media (prefers-reduced-motion: reduce) {
+  .sb__leaf, .sb__leaf[data-flipped='true'], .sb__shade { transition: none !important; }
+}

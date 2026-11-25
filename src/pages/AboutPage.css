@@ -1,0 +1,42 @@
+.about-page__eyebrow {
+  margin-top: 28px;
+}
+.about-page__location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -8px 0 24px;
+  color: var(--muted);
+}
+.about-page__story {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 32px 56px;
+}
+.about-page__story p {
+  max-width: 62ch;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.about-page__story p + p {
+  margin-top: 16px;
+}
+.about-page__chips li {
+  background: var(--peach);
+  color: var(--espresso);
+}
+.about-page__dims {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 860px) {
+  .about-page__story {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .about-page__dims {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

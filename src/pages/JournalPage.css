@@ -1,0 +1,33 @@
+.journal__now-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.journal__spark {
+  color: var(--terracotta);
+}
+.journal__now {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 22px;
+  font-size: 17px;
+}
+.journal__now li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.journal__now li span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.journal__dims {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 560px) {
+  .journal__dims {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
